@@ -1,4 +1,4 @@
-package com.tuling.kafka.kafkaDemo;
+package com.tuling.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -10,13 +10,20 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
+/**
+ * kafka消费者
+ */
 public class MsgConsumer {
-    private final static String TOPIC_NAME = "my-replicated-topic";
+    private final static String TOPIC_NAME = "my-replicated-topic111";
     private final static String CONSUMER_GROUP_NAME = "testGroup";
+    /**
+     * kafka集群节点信息
+     */
+    private final static String KAFKA_BROKER = "192.168.18.100:9092,192.168.18.100:9093,192.168.18.100:9094";
 
     public static void main(String[] args) throws Exception {
         Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.65.60:9092,192.168.65.60:9093,192.168.65.60:9094");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER);
         // 消费分组名
         props.put(ConsumerConfig.GROUP_ID_CONFIG, CONSUMER_GROUP_NAME);
         // 是否自动提交offset，默认就是true
@@ -104,7 +111,7 @@ public class MsgConsumer {
             if (records.count() > 0) {
                 // 手动同步提交offset，当前线程会阻塞直到offset提交成功
                 // 一般使用同步提交，因为提交之后一般也没有什么逻辑代码了
-                //consumer.commitSync();
+                consumer.commitSync();
 
                 // 手动异步提交offset，当前线程提交offset不会阻塞，可以继续处理后面的程序逻辑
                 /*consumer.commitAsync(new OffsetCommitCallback() {

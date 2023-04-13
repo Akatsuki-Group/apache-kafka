@@ -1,4 +1,4 @@
-package com.tuling.kafka.kafkaDemo;
+package com.tuling.kafka;
 
 public class Order {
 

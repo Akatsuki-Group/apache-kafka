@@ -5,11 +5,13 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 测试发送kafka消息
+ */
 @RestController
-public class KafkaController {
+public class KafkaProducerController {
 
     private final static String TOPIC_NAME = "my-replicated-topic";
-
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
