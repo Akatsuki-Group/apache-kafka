@@ -40,6 +40,8 @@ public class MsgProducer {
         props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 300);
         //设置发送消息的本地缓冲区，如果设置了该缓冲区，消息会先发送到本地缓冲区，可以提高消息发送性能，默认值是33554432，即32MB
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
+        // compression.type：压缩，默认 none，可配置值 gzip、snappy、lz4 和 zstd
+        props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG,"gzip");
         /*
           kafka本地线程会从缓冲区取数据，批量发送到broker，
           设置批量发送消息的大小，默认值是16384，即16kb，就是说一个batch满了16kb就发送出去
@@ -55,11 +57,17 @@ public class MsgProducer {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         //把发送消息value从字符串序列化为字节数组
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        // 添加自定义分区器
+        //props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,"com.tuling.kafka.MyPartitioner");
+        // 是否开启幂等性默认为true
+        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,"true");
+
         Producer<String, String> producer = new KafkaProducer<>(props);
         int msgNum = 5;
         final CountDownLatch countDownLatch = new CountDownLatch(msgNum);
         for (int i = 1; i <= msgNum; i++) {
             Order order = new Order(i, 100 + i, 1, 1000.00);
+
             //指定发送分区
             /*ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>(TOPIC_NAME
                     , 0, order.getOrderId().toString(), JSON.toJSONString(order));*/

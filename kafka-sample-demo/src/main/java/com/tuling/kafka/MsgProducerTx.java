@@ -14,7 +14,7 @@ import java.util.Properties;
 
 /**
  * https://kafka.apache.org/24/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html
- * 
+ *
  * kafka事务消息
  * @author arthur
  */
@@ -31,8 +31,8 @@ public class MsgProducerTx {
 
     public static void main(String[] args) {
         Properties props = new Properties();
-        //设置事务ID
-        props.put("transactional.id", "my-transactional-id");
+        //设置事务 id（必须），事务 id 任意起名
+        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "my-transactional-id");
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER);
          /*
          发出消息持久化机制参数
