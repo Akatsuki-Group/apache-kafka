@@ -12,6 +12,7 @@
         <module>kafka-demo</module>
         <module>kafka-sample-demo</module>
         <module>spring-boot-kafka</module>
+        <module>kafka-streams</module>
     </modules>
 
 </project>
